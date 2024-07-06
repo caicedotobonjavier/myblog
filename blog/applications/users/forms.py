@@ -144,3 +144,45 @@ class UpdateUserForm(forms.ModelForm):
                 }
             )
         }
+
+
+class ChangePasswordForm(forms.Form):
+
+    password1 = forms.CharField(
+        required=True,
+        label='Contraseña Actual',
+        widget=forms.PasswordInput(
+            attrs={
+                'placeholder' : 'Contraseña Actual'
+            }
+        )
+    )
+
+
+    password2 = forms.CharField(
+        required=True,
+        label='Nueva Contraseña',
+        widget=forms.PasswordInput(
+            attrs={
+                'placeholder' : 'Nueva Contraseña'
+            }
+        )
+    )
+
+    def __init__(self, user, *args, **kwargs):     
+        self.request = user
+        super(ChangePasswordForm, self).__init__(*args, **kwargs)
+
+
+    def clean(self):
+        cleaned_data = super(ChangePasswordForm, self).clean()
+
+        user = self.request
+        contrasena = self.cleaned_data['password1']
+
+        if not authenticate(email=user, password=contrasena):
+            return self.add_error('password1', 'Contraseña actual erronea')
+        
+
+        return self.cleaned_data
+        

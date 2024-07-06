@@ -16,7 +16,7 @@
                 <p>{{user.ocupation}}</p>
                 <p>{{user.date_birth}}</p>
                 <p><a href="{% url 'users_app:update_user' user.id %}">Editar Datos</a></p>
-                <a href="#">Cambiar Contraseña</a>
+                <a href="{% url 'users_app:change_password' %}">Cambiar Contraseña</a>
             </div>
         </div>
         <!-- FIN bloque de datos de usuario -->

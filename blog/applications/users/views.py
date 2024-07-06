@@ -6,7 +6,7 @@ from applications.favoritos.models import Favorites
 #
 from django.views.generic import CreateView, FormView, View, TemplateView, UpdateView
 #
-from .forms import CreateUserForm, LoginForm, UpdateUserForm
+from .forms import CreateUserForm, LoginForm, UpdateUserForm, ChangePasswordForm
 #
 from django.contrib.auth import login, logout, authenticate
 #
@@ -91,3 +91,36 @@ class UpdateInfoUserView(UpdateView):
     form_class = UpdateUserForm
     model = User
     success_url = reverse_lazy('users_app:perfil')
+
+
+
+class ChangePasswordUserView(FormView):
+    template_name = 'users/change-password.html'
+    form_class = ChangePasswordForm
+    success_url = reverse_lazy('users_app:login')
+
+
+    def get_form_kwargs(self):
+        kwargs = super(ChangePasswordUserView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
+
+    def form_valid(self, form):
+        usuario = self.request.user
+        contrasena = form.cleaned_data['password1']
+        new_password = form.cleaned_data['password2']
+
+        user = authenticate(
+            email=usuario,
+            password = contrasena
+        )
+
+        if user:
+            user.set_password(new_password)
+            user.save()
+        
+        logout(self.request)
+
+        return super(ChangePasswordUserView, self).form_valid(form)
+    
