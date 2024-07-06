@@ -1,5 +1,5 @@
 <!-- head para PC -->
-{% extends "plantillas/base_plantilla.html" %}
+{% extends "users/base_users.html" %}
 {% load  static %}
 
 {% block content %}
@@ -14,40 +14,43 @@
                     <h4>Ingrese sus datos</h4>
                 </div>
                 <div class="card-section">
-                    <form class="grid-x grid-margin-x">
+                    <form class="grid-x grid-margin-x" method="POST"> {% csrf_token %}
                         <div class="cell large-12">
                             <label>Email:
-                            <input type="text" placeholder="Correo electronico">
+                                {{form.email}}
                             </label>
                         </div>
                         <div class="cell large-6">
                             <label>Nombres:
-                            <input type="text" placeholder="Nombres y apellidos">
+                                {{form.full_name}}
                             </label>
                         </div>
                         <div class="cell medium-6">
                             <label>Ocupacion:
-                            <input type="text" placeholder="Nombres y apellidos">
+                                {{form.ocupation}}
                             </label>
                         </div>
                         <div class="cell medium-6">
                             <label>Genero:
-                            <input type="text" placeholder="Nombres y apellidos">
+                                {{form.genero}}
                             </label>
                         </div>
                         <div class="cell medium-6">
                             <label>Fecha Nacimiento:
-                            <input type="text" placeholder="Nombres y apellidos">
+                                {{form.date_birth}}
                             </label>
                         </div>
                         <div class="cell medium-12">
                             <label>Contraseña:
-                            <input type="password" placeholder="Paswword ...">
+                                {{form.password1}}
                             </label>
                         </div>
                         <div class="cell medium-12">
                             <label>Repetir Contraseña:
-                            <input type="password" placeholder="Paswword ...">
+                                {{form.password2}}
+                                {% for error in form.errors.password2 %}
+                                    <p style="color:red;">{{error}}</p>
+                                {% endfor %}
                             </label>
                         </div>
                         <button type="submit" class="cell hollow button primary">Registrar</button>

@@ -1,5 +1,5 @@
 <!-- head para PC -->
-{% extends "plantillas/base_plantilla.html" %}
+{% extends "users/base_users.html" %}
 {% load  static %}
 
 {% block content %}
@@ -8,29 +8,32 @@
 
 <div class="grid-container">
     <div class="grid-x grid-margin-x align-center">
-        <form class="cell medium-6 large-4" style="margin-top: 2em;">
+        <div class="cell medium-6 large-4" style="margin-top: 2em;">
             <div class="card" style="width: 100%;">
                 <div class="card-divider">
                     <h4>Acceso de usuario</h4>
                 </div>
                 <div class="card-section">
-                    <form class="grid-x grid-margin-x">
+                    <form class="grid-x grid-margin-x" method="POST">{% csrf_token %}
                         <div class="cell medium-12">
                             <label>Email:
-                            <input type="email" placeholder="Correo electronico">
+                                {{form.email}}
                             </label>
                         </div>
                         <div class="cell medium-12">
                             <label>Contraseña:
-                            <input type="password" placeholder="Paswword ...">
+                                {{form.password}}
+
+                                <p style="color:red;">{{form.errors.password}}</p>
+
                             </label>
                         </div>
                         <button type="submit" class="cell hollow button primary">Acceder</button>
-                        <a class="cell hollow button alert" href="#">Registrar</a>
+                        <a class="cell hollow button alert" href="{% url 'users_app:create_user' %}">Registrar</a>
                     </form>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 
