@@ -1,6 +1,6 @@
 from django.shortcuts import render
 #
-from django.views.generic import View
+from django.views.generic import View, DeleteView
 #
 from django.urls import reverse, reverse_lazy
 #
@@ -26,6 +26,28 @@ class AddFavorite(View):
 
         return HttpResponseRedirect(
             reverse(
-                'home_app:index'
+                'users_app:perfil'
             )
         )  
+
+
+
+class DelteFavoriteView(View):    
+
+    def post(self, request, *args, **kwargs):
+        pk = self.kwargs['pk']        
+        entrada = Favorites.objects.get(entry=pk)
+        usuario = self.request.user
+
+        favorito = Favorites.objects.get(id=entrada.id)
+        
+        favorito.delete()
+        
+
+        return HttpResponseRedirect(
+            reverse(
+                'users_app:perfil'
+            )
+        )
+
+    

@@ -2,9 +2,11 @@ from django.shortcuts import render
 #
 from .models import User
 #
-from django.views.generic import CreateView, FormView, View
+from applications.favoritos.models import Favorites
 #
-from .forms import CreateUserForm, LoginForm
+from django.views.generic import CreateView, FormView, View, TemplateView, UpdateView
+#
+from .forms import CreateUserForm, LoginForm, UpdateUserForm
 #
 from django.contrib.auth import login, logout, authenticate
 #
@@ -71,3 +73,21 @@ class LogoutView(View):
                 'users_app:login'
             )
         )
+
+
+class PerfilUserView(TemplateView):
+    template_name = 'users/perfil.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super(PerfilUserView, self).get_context_data(**kwargs)
+        usuario = self.request.user        
+        context["favoritos"] = Favorites.objects.filter(user=usuario)
+        
+        return context
+
+
+class UpdateInfoUserView(UpdateView):
+    template_name = 'users/update-user.html'
+    form_class = UpdateUserForm
+    model = User
+    success_url = reverse_lazy('users_app:perfil')

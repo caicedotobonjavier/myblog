@@ -2,7 +2,7 @@
     <div class="grid-x grid-margin-x header">
         <div class="cell small-12 medium-4 large-3">
             <a href="#" style="font-size: 20px; color: #0277bd;">
-                Javier Caicedo Dev
+                Desarrollo Sotware Python Django
             </a>
             
         </div>
@@ -20,7 +20,7 @@
                 <li>
                     
                     {% if not user.is_anonymous %}
-                        <a href="#" class="success button">Perfil</a>
+                        <a href="{% url 'users_app:perfil' %}" class="success button">Perfil</a>
                     {% else %}
                         <a href="{% url 'users_app:login' %}" class="success button">Acceder</a>
                     {% endif %}

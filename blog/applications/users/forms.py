@@ -111,3 +111,36 @@ class LoginForm(forms.Form):
             return self.add_error('password', 'Usuario o contraseña erroneo')
         
         return self.cleaned_data
+
+
+
+class UpdateUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = (            
+            'full_name',
+            'ocupation',
+            'genero',
+            'date_birth',
+        )
+
+        widgets = {
+            
+            'full_name': forms.TextInput(
+                attrs={
+                    'placeholder' : 'Nombre completo'
+                }
+            ),
+
+            'ocupation' : forms.TextInput(
+                attrs={
+                    'placeholder' : 'Tecnico, Tecnologo, Ingeniero ...'
+                }
+            ),
+
+            'date_birth' : forms.DateInput(
+                attrs={
+                    'type' : 'date'
+                }
+            )
+        }

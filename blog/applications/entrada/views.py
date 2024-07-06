@@ -4,12 +4,16 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 #
 from .models import Entry, Category
+#
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 
-class EntryListView(ListView):
+class EntryListView(LoginRequiredMixin, ListView):
     template_name = 'entrada/blog.html'
     context_object_name = "entradas"
+    paginate_by = 6
+    login_url = 'users_app:login'
 
     def get_queryset(self):
         entrada = self.request.GET.get('kword')
@@ -28,9 +32,11 @@ class EntryListView(ListView):
         return context
 
 
-class DetailEntryView(DetailView):
+class DetailEntryView(LoginRequiredMixin, DetailView):
     template_name = 'entrada/detalle-entrada.html'
     context_object_name = 'detalles'
+    login_url = 'users_app:login'
+
     
     def get_queryset(self):
         dato = self.kwargs['pk']
