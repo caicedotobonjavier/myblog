@@ -36,3 +36,9 @@ class SerializadorUser(serializers.ModelSerializer):
         queryset = Entry.objects.filter(user__id = obj.id)
         serializador = SerializerEntry2(queryset, many=True).data
         return serializador
+
+
+
+class SerializadorLoginUser(serializers.Serializer):
+    user = serializers.EmailField()
+    password = serializers.CharField()

@@ -80,6 +80,8 @@ class SerializerEntry2(serializers.ModelSerializer):
             'image',       
         )
 
+
+
 class ListaTags(serializers.ListField):
     child = serializers.IntegerField()
 

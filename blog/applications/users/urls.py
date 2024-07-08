@@ -15,4 +15,5 @@ urlpatterns = [
     #API
     path('api/users/list/', views.ListaUsersApi.as_view(), name='list'),
     path('api/users/detail/<pk>/', views.DetailUserApi.as_view(), name='detail'),
+    path('api/users/login/', views.LoginUserApi.as_view(), name='api_login'),
 ]

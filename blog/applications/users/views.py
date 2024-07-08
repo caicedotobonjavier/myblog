@@ -2,6 +2,8 @@ from django.shortcuts import render
 #
 from .models import User
 #
+from rest_framework.authtoken.models import Token
+#
 from applications.favoritos.models import Favorites
 #
 from django.views.generic import CreateView, FormView, View, TemplateView, UpdateView
@@ -16,7 +18,11 @@ from django.http import HttpResponseRedirect
 #
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 #
-from .serializers import SerializadorUser
+from rest_framework.views import APIView
+#
+from rest_framework.response import Response
+#
+from .serializers import SerializadorUser, SerializadorLoginUser
 # Create your views here.
 
 
@@ -146,3 +152,55 @@ class DetailUserApi(RetrieveAPIView):
         dato = self.kwargs['pk']
         resultado = User.objects.filter(id=dato)
         return resultado
+
+
+
+class LoginUserApi(APIView):
+    serializer_class = SerializadorLoginUser
+
+
+    def post(self, request, *args, **kwargs):
+        serializador = self.serializer_class(data=request.data)
+        serializador.is_valid(raise_exception=True)
+
+        usuario = serializador.validated_data['user']
+        contrasena = serializador.validated_data['password']
+
+        user = authenticate(email=usuario, password=contrasena)
+
+        if user:
+            token, created = Token.objects.get_or_create(
+                user = user
+            )
+
+            token_user = {
+                "token" : token.key,  
+                "created" : token.created           
+            }
+
+            login_user = {
+                "username" : user.email,
+                "nombre" : user.full_name,
+                "ocupacion" : user.ocupation,
+                "fecha_nacimiento" : user.date_birth,
+                "genero" : user.get_genero_display(),
+                "usuario_activo" : user.is_active,
+                "usuerio_administrador" : user.is_superuser,                
+                "ultimo_logueo" : user.last_login
+                
+            }
+
+            return Response(
+                {
+                    'access' : "successful",
+                    'user_info' : login_user,
+                    'token': token_user
+                }
+            )
+        else:
+            return Response(
+                {
+                    'access' : "denied",
+                    "answer" : "No se encontro el usuario"
+                }
+            )

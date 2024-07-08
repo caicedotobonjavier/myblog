@@ -9,9 +9,9 @@ from applications.favoritos.models import Favorites
 #
 from django.contrib.auth.mixins import LoginRequiredMixin
 #
-from .serializers import SerializerEntry, Paginador, SerializerCategory, SerializadorEntradaNueva
+from .serializers import SerializerEntry, Paginador, SerializerCategory, SerializadorEntradaNueva, SerializerEntry2
 #
-from rest_framework.generics import ListAPIView, ListCreateAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, ListCreateAPIView, CreateAPIView, RetrieveAPIView
 #
 from rest_framework.views import APIView
 #
@@ -108,3 +108,11 @@ class CrearNuevaEntradaApi(APIView):
                 'Entrada' : 'Guardada Exitosamente'
             }
         )
+
+
+class DetalleEntradasApi(RetrieveAPIView):
+    serializer_class = SerializerEntry2
+
+    def get_queryset(self):
+        resultado = Entry.objects.all()
+        return resultado

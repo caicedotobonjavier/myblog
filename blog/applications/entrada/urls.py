@@ -12,4 +12,5 @@ urlpatterns = [
     path('api/entry/list/', views.ListaEntradasApi.as_view(), name='list'),
     path('api/category/new/', views.CrearCategoriaApi.as_view(), name='new_category'),
     path('api/category/new/entry/', views.CrearNuevaEntradaApi.as_view(), name='nueva_emtrada'),
+    path('api/entry/detail/<pk>/', views.DetalleEntradasApi.as_view(), name='detalle_entrada'),
 ]

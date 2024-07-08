@@ -9,6 +9,10 @@ from django.http import HttpResponseRedirect
 from applications.entrada.models import Entry
 #
 from .models import Favorites
+#
+from .serializers import SerializerFavorites
+#
+from rest_framework.generics import ListAPIView
 # Create your views here.
 
 
@@ -51,3 +55,12 @@ class DelteFavoriteView(View):
                 'users_app:perfil'
             )
         )
+
+
+
+class FavoritosListApi(ListAPIView):
+    serializer_class = SerializerFavorites
+
+    def get_queryset(self):
+        resulto = Favorites.objects.all()
+        return resulto
