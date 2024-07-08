@@ -18,7 +18,7 @@ class AddFavorite(View):
         entrada = Entry.objects.get(id=self.kwargs['pk'])
         usuario = self.request.user
 
-        Favorites.objects.create(
+        Favorites.objects.get_or_create(
             user = usuario,
             entry = entrada
         )
@@ -35,11 +35,13 @@ class AddFavorite(View):
 class DelteFavoriteView(View):    
 
     def post(self, request, *args, **kwargs):
-        pk = self.kwargs['pk']        
-        entrada = Favorites.objects.get(entry=pk)
-        usuario = self.request.user
+        pk = self.kwargs['pk']
 
-        favorito = Favorites.objects.get(id=entrada.id)
+        favorito = Favorites.objects.filter(
+            id=pk,
+        )
+
+        print(favorito)
         
         favorito.delete()
         
@@ -49,5 +51,3 @@ class DelteFavoriteView(View):
                 'users_app:perfil'
             )
         )
-
-    

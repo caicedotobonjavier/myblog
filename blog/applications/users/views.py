@@ -13,6 +13,10 @@ from django.contrib.auth import login, logout, authenticate
 from django.urls import reverse, reverse_lazy
 #
 from django.http import HttpResponseRedirect
+#
+from rest_framework.generics import ListAPIView, RetrieveAPIView
+#
+from .serializers import SerializadorUser
 # Create your views here.
 
 
@@ -124,3 +128,21 @@ class ChangePasswordUserView(FormView):
 
         return super(ChangePasswordUserView, self).form_valid(form)
     
+
+
+#API
+class ListaUsersApi(ListAPIView):
+    serializer_class = SerializadorUser
+
+    def get_queryset(self):
+        resultado = User.objects.all()
+        return resultado
+
+
+class DetailUserApi(RetrieveAPIView):
+    serializer_class = SerializadorUser
+
+    def get_queryset(self):
+        dato = self.kwargs['pk']
+        resultado = User.objects.filter(id=dato)
+        return resultado

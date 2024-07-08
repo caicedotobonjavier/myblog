@@ -47,7 +47,7 @@ class Entry(TimeStampedModel):
     resume = models.TextField('Resumen')
     content = RichTextUploadingField('Contenido')
     public = models.BooleanField(default=False)
-    image = models.ImageField('Imagen', upload_to='Entry')
+    image = models.ImageField('Imagen', upload_to='Entry', blank=True)
     portada = models.BooleanField(default=False)
     in_home = models.BooleanField(default=False)
     slug = models.SlugField(editable=False, max_length=300)

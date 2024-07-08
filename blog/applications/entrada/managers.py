@@ -43,8 +43,12 @@ class EntryManagers(models.Manager):
                 title__icontains = kword,
                 public = True
             )
-            
 
+
+    def buscar_categorias(self,dato):
+        return self.filter(
+            category__id = dato
+        )
 
 
 class CategoryManager():

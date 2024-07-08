@@ -33,7 +33,7 @@
                         <p class="card-favoritos-body-text">{{favorito.entry.resume}}</p>
                         <div class="card-favoritos-body-actions">
                             
-                            <form method="POST" action="{% url 'favoritos_app:delete_favorito' favorito.entry.id %}">{% csrf_token %}
+                            <form method="POST" action="{% url 'favoritos_app:delete_favorito' favorito.id %}">{% csrf_token %}
                                 <button class="button alert" type="submit">Eliminar</button>
                                 <a class="button warning" href="{% url 'entrada_app:detalle' favorito.entry.id %}">Ver</a>
                             </form>
